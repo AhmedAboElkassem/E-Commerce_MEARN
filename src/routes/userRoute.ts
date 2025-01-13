@@ -1,5 +1,7 @@
 import express from "express";
 import { login, register } from "../services/userService";
+import validateJWT from "../middlewares/validateJWT";
+import { ExtendRequest } from "../types/extendedRequest";
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
