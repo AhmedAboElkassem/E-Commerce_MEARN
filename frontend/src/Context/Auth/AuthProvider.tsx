@@ -5,15 +5,18 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [username, setUserName] = useState<string | null>(
     localStorage.getItem("username")
   );
-  const [token, setToken] = useState<string | null>("token");
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token")
+  );
   const login = (username: string, token: string) => {
     setUserName(username);
     setToken(token);
     localStorage.setItem("username", username);
     localStorage.setItem("token", token);
   };
+  const isAuthenticated = !!token;
   return (
-    <AuthContext.Provider value={{ username, token, login }}>
+    <AuthContext.Provider value={{ username, token, login, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
