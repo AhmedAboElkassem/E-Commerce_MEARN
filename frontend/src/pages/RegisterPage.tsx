@@ -1,6 +1,7 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import { BASE_URL } from "../constants/baseUrl";
+import { useAuth } from "../Context/Auth/AutContext";
 
 const RegisterPage = () => {
   const [error, seterror] = useState("");
@@ -8,11 +9,19 @@ const RegisterPage = () => {
   const lnameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const { login } = useAuth();
+
   const onSubmit = async () => {
     const firstName = fnameRef?.current?.value;
     const lastName = lnameRef?.current?.value;
     const email = emailRef?.current?.value;
     const password = passwordRef?.current?.value;
+
+    if (!firstName || !lastName || !email || !password) {
+      seterror("check supmited data");
+      return;
+    }
     // Make The API Call
     const response = await fetch(`${BASE_URL}/user/register`, {
       method: "POST",
@@ -33,8 +42,13 @@ const RegisterPage = () => {
       return;
     }
     seterror("");
-    const data = await response.json();
-    console.log(data);
+
+    const token = await response.json();
+    if (!token) {
+      seterror("Incorrect Token");
+      return;
+    }
+    login(email, token);
   };
 
   return (
