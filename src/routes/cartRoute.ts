@@ -2,6 +2,7 @@ import express from "express";
 import validateJWT from "../middlewares/validateJWT";
 import {
   addItemToCart,
+  checkOut,
   clearItemInCart,
   deleteItemInCart,
   getActiveCartForUser,
@@ -43,4 +44,12 @@ router.delete("/", validateJWT, async (req: ExtendRequest, res) => {
   const response = await clearItemInCart({ userId });
   res.status(response.statusCode).send(response.data);
 });
+
+router.post("/checkout", validateJWT, async (req: ExtendRequest, res) => {
+  const userId = req.user._id;
+  const { address } = req.body;
+  const response = await checkOut({ userId, address });
+  res.status(response.statusCode).send(response.data);
+});
+
 export default router;
