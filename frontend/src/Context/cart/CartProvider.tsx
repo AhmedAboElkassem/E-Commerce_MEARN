@@ -26,15 +26,24 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
         setError("failed to parce cart data");
       }
       const cartItemsMaped = cart.items.map(
-        ({ product, quantity }: { product: any; quantity: any }) => ({
+        ({
+          product,
+          quantity,
+          unitPrice,
+        }: {
+          product: any;
+          quantity: any;
+          unitPrice: number;
+        }) => ({
           productId: product._id,
           title: product.title,
           image: product.image,
-          unitPrice: product.unitPrice,
+          unitPrice,
           quantity,
         })
       );
       setCartItem([...cartItemsMaped]);
+      setTotalAmount(cart.totalAmount);
     };
     fechCart();
   }, [token]);
@@ -61,11 +70,19 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
         setError("failed to parce cart data");
       }
       const cartItemsMaped = cart.items.map(
-        ({ product, quantity }: { product: any; quantity: any }) => ({
+        ({
+          product,
+          quantity,
+          unitPrice,
+        }: {
+          product: any;
+          quantity: any;
+          unitPrice: number;
+        }) => ({
           productId: product._id,
           title: product.title,
           image: product.image,
-          unitPrice: product.unitPrice,
+          unitPrice,
           quantity,
         })
       );
