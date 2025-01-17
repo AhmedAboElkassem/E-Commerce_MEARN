@@ -69,7 +69,7 @@ export const addItemToCart = async ({
 };
 interface UpdateItemInCart {
   productId: string;
-  quantity: String;
+  quantity: number;
   userId: any;
 }
 
@@ -94,8 +94,9 @@ export const UpdateItemInCart = async ({
   }
 
   const otherCartItems = cart.items.filter((p) => {
-    p.product.toString() !== productId;
+    return (p.product as { _id: string })._id.toString() !== productId;
   });
+  console.log(otherCartItems);
   let total = calculateCartTotalItems({ cartItems: otherCartItems });
   existsInCart.quantity = +quantity;
   total += existsInCart.quantity * existsInCart.unitPrice;
@@ -122,7 +123,7 @@ export const deleteItemInCart = async ({
     return { data: "Item does not exist in cart", statusCode: 400 };
   }
   const otherCartItems = cart.items.filter((p) => {
-    p.product.toString() !== productId;
+    return (p.product as { _id: string })._id.toString() !== productId;
   });
   let total = calculateCartTotalItems({ cartItems: otherCartItems });
   cart.totalAmount = total;
