@@ -1,12 +1,43 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useCart } from "../Context/cart/CartContext";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useAuth } from "../Context/Auth/AutContext";
+import { BASE_URL } from "../constants/baseUrl";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const { cartItems, totalAmount } = useCart();
   const addressRef = useRef<HTMLInputElement>(null);
+  const { token } = useAuth();
+  const [error, seterror] = useState("");
+
+  const onSubmit = async () => {
+    const address = addressRef?.current?.value;
+
+    if (!address) {
+      seterror("address field is required");
+      return;
+    }
+    const response = await fetch(`${BASE_URL}/cart/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        address,
+      }),
+    });
+    if (!response.ok) {
+      const data = await response.json();
+      seterror("Unable to Checkout,please try again!");
+      return;
+    }
+
+    seterror("");
+    navigate("/order-success");
+  };
 
   return (
     <Container
@@ -74,7 +105,7 @@ const CheckoutPage = () => {
           Total Amount:{totalAmount.toFixed(2)} EGP
         </Typography>
       </Box>
-      <Button variant="contained" fullWidth>
+      <Button variant="contained" fullWidth onClick={() => onSubmit()}>
         Pay Now
       </Button>
     </Container>
