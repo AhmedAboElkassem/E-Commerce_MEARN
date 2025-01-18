@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren, useState } from "react";
 import { AuthContext } from "./AutContext";
+import { BASE_URL } from "../../constants/baseUrl";
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [username, setUserName] = useState<string | null>(
@@ -8,6 +9,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("token")
   );
+  const [myOrders, setmyOrders] = useState([]);
   const login = (username: string, token: string) => {
     setUserName(username);
     setToken(token);
@@ -20,10 +22,29 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     setUserName(null);
     setToken(null);
   };
+  const getMyOrders = async () => {
+    const response = await fetch(`${BASE_URL}/user/myorder`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) return;
+    const data = await response.json();
+    setmyOrders(data);
+  };
   const isAuthenticated = !!token;
   return (
     <AuthContext.Provider
-      value={{ username, token, isAuthenticated, login, logout }}
+      value={{
+        username,
+        token,
+        isAuthenticated,
+        myOrders,
+        login,
+        logout,
+        getMyOrders,
+      }}
     >
       {children}
     </AuthContext.Provider>

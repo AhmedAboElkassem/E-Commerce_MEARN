@@ -26,4 +26,4 @@ const OrderSchema = new Schema<IOrder>({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
 });
 
-export const orderModel = mongoose.model<IOrder>("Model", OrderSchema);
+export const orderModel = mongoose.model<IOrder>("Order", OrderSchema);

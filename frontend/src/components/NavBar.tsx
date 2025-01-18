@@ -34,13 +34,20 @@ function NavBar() {
   const handleLogin = () => {
     navigate("/login");
   };
+  const handleRegister = () => {
+    navigate("/register");
+  };
   const handleLogout = () => {
     logout();
     navigate("/");
     handleCloseUserMenu();
   };
   const handlecartpage = () => {
-    navigate("cart");
+    navigate("/cart");
+  };
+  const handleMyOdrers = () => {
+    navigate("/my-orders");
+    handleCloseUserMenu();
   };
   return (
     <AppBar position="static">
@@ -134,7 +141,7 @@ function NavBar() {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <MenuItem onClick={handleCloseUserMenu}>
+                    <MenuItem onClick={handleMyOdrers}>
                       <Typography sx={{ textAlign: "center" }}>
                         My Orders
                       </Typography>
@@ -147,13 +154,28 @@ function NavBar() {
                   </Menu>
                 </>
               ) : (
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={handleLogin}
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  gap={1}
                 >
-                  Login
-                </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={handleLogin}
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={handleRegister}
+                  >
+                    Register
+                  </Button>
+                </Box>
               )}
             </Box>
           </Box>
