@@ -10,15 +10,47 @@ interface props {
   title: string;
   image: string;
   price: string;
+  Spec?: {
+    proccesor?: string;
+    os?: string;
+    ram?: string;
+    storage?: string;
+    graphics?: string;
+  };
 }
-export default function ProductCard({ _id, title, image, price }: props) {
+export default function ProductCard({ _id, title, Spec, image, price }: props) {
   const { addItemToCart } = useCart();
   return (
     <Card>
-      <CardMedia sx={{ height: 200 }} image={image} title="green iguana" />
+      <CardMedia>
+        <img
+          src={image}
+          alt="green iguana"
+          style={{
+            height: "200px",
+            width: "100%",
+            objectFit: "contain",
+          }}
+        />
+      </CardMedia>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
+        </Typography>
+        <Typography gutterBottom variant="body2" component="div">
+          {Spec?.proccesor}
+        </Typography>
+        <Typography gutterBottom variant="body2" component="div">
+          {Spec?.os}
+        </Typography>
+        <Typography gutterBottom variant="body2" component="div">
+          {Spec?.ram}
+        </Typography>
+        <Typography gutterBottom variant="body2" component="div">
+          {Spec?.storage}
+        </Typography>
+        <Typography gutterBottom variant="body2" component="div">
+          {Spec?.graphics}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {price} EGP
