@@ -160,7 +160,5 @@ _View your purchase history._
 - Integrate payment gateway for secure transactions.
 - Implement product reviews and ratings.
 
-## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
 
