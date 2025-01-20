@@ -62,7 +62,7 @@ This project is an e-commerce platform for selling laptops, built with modern we
    - Start the backend server:
      ```bash
      cd backend
-     npm start
+     npm run dev
      ```
    - Start the frontend development server:
      ```bash
